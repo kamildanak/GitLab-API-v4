@@ -114,7 +114,7 @@ subtest users => sub{
 
 subtest failures => sub{
     is( $api->user( 12345678 ), undef, 'GETing an unknown entity returns undef' );
-    my $err_re = qr{^Error PUTing \S+/users/12345678 \(HTTP 404\): Not Found \{"message":"404 User Not Found"\}};
+    my $err_re = qr{^Error PUTing \S+/users/12345678 \(HTTP 404\): Not Found$};
     like( dies{ $api->edit_user( 12345678, {} ) }, $err_re, 'POSTing an unknown entity throws a specific exception' );
 };
 

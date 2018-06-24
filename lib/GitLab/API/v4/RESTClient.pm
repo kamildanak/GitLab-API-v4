@@ -30,6 +30,8 @@ use Carp qw( croak confess );
 use Try::Tiny;
 use Path::Tiny;
 
+use GitLab::API::v4::ResponseException;
+
 use Moo;
 use strictures 2;
 use namespace::clean;
@@ -177,22 +179,17 @@ sub request {
         return $self->json->decode( $res->{content} );
     }
 
-    my $glimpse = $res->{content} || '';
-    $glimpse =~ s{\s+}{ }g;
-    if ( length($glimpse) > 50 ) {
-        $glimpse = substr( $glimpse, 0, 50 );
-        $glimpse .= '...';
-    }
-
     local $Carp::Internal{ 'GitLab::API::v4' } = 1;
     local $Carp::Internal{ 'GitLab::API::v4::RESTClient' } = 1;
 
-    croak sprintf(
-        'Error %sing %s (HTTP %s): %s %s',
-        $verb, $url,
-        $res->{status}, ($res->{reason} || 'Unknown'),
-        $glimpse,
-    );
+    croak( GitLab::API::v4::ResponseException->new(
+        res => $res,
+        req => {
+            %$options,
+            url    => $url,
+            method => $verb,
+        },
+    ) );
 }
 
 1;

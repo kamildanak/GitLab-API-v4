@@ -2,6 +2,10 @@ Revision history for Perl extension GitLab::API::v4.
 
 {{$NEXT}}
 
+- When an HTTP request fails a GitLab::API::v4::ResponseException object
+  is thrown instead of a string.  This allows for easier debugging when
+  things go wrong.
+
 0.10 2018-06-05
 
 - Fix project_hook() so it uses the correct path.

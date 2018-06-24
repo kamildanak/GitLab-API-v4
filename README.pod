@@ -71,6 +71,9 @@ an unsuccessful response is received from the API.  That is except for
 C<GET> requests that return a C<404> response - these will return C<undef>
 for methods that return a value.
 
+The exceptions are, themselves, L<GitLab::API::v4::ResponseException>
+objects.
+
 If you'd like to catch and handle these exceptions consider using
 L<Try::Tiny>.
 
@@ -167,6 +170,12 @@ Returns a new instance of L<GitLab::API::v4> with the L</sudo_user> argument
 set.
 
 See L<https://docs.gitlab.com/ce/api/#sudo>.
+
+=head2 is_response_exception
+
+Returns true if the passed object is a response exception.
+
+See L<GitLab::API::v4::ResponseException> for more details and examples.
 
 =head1 AWARD EMOJI METHODS
 
